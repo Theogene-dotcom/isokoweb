@@ -1,0 +1,24 @@
+services:
+  django_app:
+    build: .
+    env_file:
+      - .env
+    volumes:
+      - static_vol:/isokoweb/app/static
+      - media_vol:/isokoweb/app/media
+    ports:
+      - "8001:8000"
+
+  nginx:
+    build: ./nginx
+    volumes:
+      - static_vol:/isokoweb/app/static
+      - media_vol:/isokoweb/app/media
+    ports:
+      - "8080:80"
+    depends_on:
+      - django_app
+
+volumes:
+  static_vol:
+  media_vol:
